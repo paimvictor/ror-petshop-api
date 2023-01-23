@@ -48,3 +48,4 @@ group :development do
   # gem "spring"
 end
 
+gem 'simplecov', require: false, group: :test
