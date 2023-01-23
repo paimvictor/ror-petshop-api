@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  get 'servico/index'
-  get 'pet/index'
-  get 'cliente/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :clientes do
+    resources :pets
+  end
+  resources :servicos do 
+    get :search, on: :collection, constraints: {
+      data_agendamento: /\d{4}-\d{2}-\d{2}/
+    }
+  end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
