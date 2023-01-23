@@ -82,4 +82,12 @@ RSpec.describe "ServicoControllers", type: :request do
       expect(response).to have_http_status(204)
     end
   end
+
+  describe "GET #search" do
+    it "returns http success" do
+      servico = create(:servico)
+      get "/servico/search?data_agendamento=#{servico.data_agendamento}"
+      expect(response).to have_http_status(:success)
+    end
+  end
 end
