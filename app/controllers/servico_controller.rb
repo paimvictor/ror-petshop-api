@@ -10,7 +10,8 @@ class ServicoController < ApplicationController
   end
 
   def create
-    @servico = Servico.new(servico_params)
+    @pet = Pet.find(params[:pet_id])
+    @servico = @pet.servicos.build(servico_params)
 
     if @servico.save
       render json: @servico, status: :created
