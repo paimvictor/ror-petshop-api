@@ -10,7 +10,8 @@ class PetController < ApplicationController
   end
 
   def create
-    @pet = Pet.new(pet_params)
+    @cliente = Cliente.find(params[:cliente_id])
+    @pet = @cliente.pets.build(pet_params)
 
     if @pet.save
       render json: @pet, status: :created
