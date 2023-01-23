@@ -36,6 +36,11 @@ class ServicoController < ApplicationController
     render json: @servico, status: :no_content
   end
 
+  def search
+    @servicos = Servico.where(data_agendamento: params[:data_agendamento])
+    render json: @servicos, status: :ok
+  end
+
   private
     def servico_params
       params.require(:servico).permit(:titulo, :preco, :data_agendamento)
