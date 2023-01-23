@@ -42,4 +42,51 @@ RSpec.describe "PetControllers", type: :request do
       end
     end
   end
+
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) {
+        { nome: "Novo nome" }
+      }
+
+      it "updates the requested pet" do
+        cliente = create(:cliente)
+        pet = create(:pet)
+        put "/pet/#{pet.id}", params: { pet: new_attributes, cliente_id: cliente.id }
+        pet.reload
+        expect(pet.nome).to eq(new_attributes[:nome])
+      end
+
+      it "returns a 200 status code" do
+        cliente = create(:cliente)
+        pet = create(:pet)
+        put "/pet/#{pet.id}", params: { pet: new_attributes, cliente_id: cliente.id }
+        expect(response).to have_http_status(200)
+      end
+
+      it "returns the updated pet as JSON" do
+        cliente = create(:cliente)
+        pet = create(:pet)
+        put "/pet/#{pet.id}", params: { pet: new_attributes, cliente_id: cliente.id }
+        json = JSON.parse(response.body)
+        expect(json["nome"]).to eq(new_attributes[:nome])
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested pet" do
+      pet = create(:pet)
+      expect {
+        delete "/pet/#{pet.id}"
+      }.to change(Pet, :count).by(-1)
+    end
+
+    it "returns a 204 status code" do
+      pet = create(:pet)
+      delete "/pet/#{pet.id}"
+      expect(response).to have_http_status(204)
+    end
+  end
+
 end
