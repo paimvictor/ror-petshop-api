@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :servico do
     titulo { Faker::Lorem.sentence }
-    preco { Faker::Commerce.price }
-    data_agendamento { Faker::Date.forward(days: 30) }
+    preco { 50 }
+    data_agendamento { Faker::Time.between(from: DateTime.now, to: DateTime.now + 30, format: :default) }
     association :pet
   end
 end
