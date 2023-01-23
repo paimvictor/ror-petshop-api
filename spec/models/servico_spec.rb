@@ -17,5 +17,10 @@ RSpec.describe Servico, type: :model do
       servico = Servico.new(titulo: "Banho", preco: 50, data_agendamento: DateTime.now, pet: pet)
       expect(servico.valid?).to be true
     end
+    it "should be invalid" do
+      pet = Pet.create(nome: "Fido", especie: "dog", raca: "Golden Retriever")
+      servico = Servico.new(titulo: "Banho", preco: -50, data_agendamento: DateTime.now, pet: pet)
+      expect(servico.valid?).to be false
+    end
   end
 end
