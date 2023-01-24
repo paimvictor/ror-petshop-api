@@ -1,8 +1,8 @@
 class Pet < ApplicationRecord
-  belongs_to :cliente
-  has_many :servicos
+  belongs_to :client
+  has_many :services
 
-  validates :nome, presence: true
-  validates :raca, presence: true
-  validates :especie, presence: true
+  validates :name, presence: true
+  validates :breed, presence: true
+  validates :species, presence: true
 end

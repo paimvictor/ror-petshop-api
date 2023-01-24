@@ -1,8 +1,8 @@
 require "test_helper"
 
-class ServicoControllerTest < ActionDispatch::IntegrationTest
+class ServiceControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get servico_index_url
+    get service_index_url
     assert_response :success
   end
 end

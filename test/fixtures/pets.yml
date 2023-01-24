@@ -4,10 +4,10 @@ one:
   nome: MyString
   especie: MyString
   raca: MyString
-  cliente: one
+  client: one
 
 two:
   nome: MyString
   especie: MyString
   raca: MyString
-  cliente: two
+  client: two

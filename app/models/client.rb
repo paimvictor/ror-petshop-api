@@ -1,7 +1,7 @@
-class Cliente < ApplicationRecord
+class Client < ApplicationRecord
     has_many :pets, dependent: :destroy
 
-    validates :nome, presence: true
+    validates :name, presence: true
     validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: true
-    validates :telefone, presence: true, length: { is: 11 }
+    validates :phone, presence: true, length: { is: 11 }
 end

@@ -10,35 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_23_123237) do
-  create_table "clientes", force: :cascade do |t|
-    t.string "nome"
+ActiveRecord::Schema[7.0].define(version: 2023_01_24_182726) do
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
     t.string "email"
-    t.string "telefone"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "pets", force: :cascade do |t|
-    t.string "nome"
-    t.string "especie"
-    t.string "raca"
-    t.integer "cliente_id", null: false
+    t.string "name"
+    t.string "species"
+    t.string "breed"
+    t.integer "client_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cliente_id"], name: "index_pets_on_cliente_id"
+    t.index ["client_id"], name: "index_pets_on_client_id"
   end
 
-  create_table "servicos", force: :cascade do |t|
-    t.string "titulo"
-    t.float "preco"
-    t.datetime "data_agendamento"
+  create_table "services", force: :cascade do |t|
+    t.string "title"
+    t.float "price"
+    t.datetime "scheduled_date"
     t.integer "pet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["pet_id"], name: "index_servicos_on_pet_id"
+    t.index ["pet_id"], name: "index_services_on_pet_id"
   end
 
-  add_foreign_key "pets", "clientes"
-  add_foreign_key "servicos", "pets"
+  add_foreign_key "pets", "clients"
+  add_foreign_key "services", "pets"
 end

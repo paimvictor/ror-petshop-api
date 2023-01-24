@@ -10,8 +10,8 @@ class PetController < ApplicationController
   end
 
   def create
-    @cliente = Cliente.find(params[:cliente_id])
-    @pet = @cliente.pets.build(pet_params)
+    @client = Client.find(params[:client_id])
+    @pet = @client.pets.build(pet_params)
 
     if @pet.save
       render json: @pet, status: :created
@@ -39,6 +39,6 @@ class PetController < ApplicationController
 
   private
     def pet_params
-      params.require(:pet).permit(:nome, :especie, :raca)
+      params.require(:pet).permit(:name, :species, :breed)
     end
 end
