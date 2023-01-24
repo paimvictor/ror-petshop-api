@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :pet
   resources :servico do 
     get :search, on: :collection, constraints: {
-      data_agendamento: /\d{4}-\d{2}-\d{2}/
+      data_agendamento: /\d{4}-\d{2}-\d{2}/ # YYYY-MM-DD
     }
   end
 
