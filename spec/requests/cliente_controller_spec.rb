@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "ClienteControllers", type: :request do
+  before do
+    @cliente = create(:cliente)
+  end
   describe "GET" do
     it "returns http success" do
       get "/cliente"
@@ -10,8 +13,7 @@ RSpec.describe "ClienteControllers", type: :request do
 
   describe "GET by id" do
     it "returns http success" do
-      cliente = create(:cliente)
-      get "/cliente/#{cliente.id}"
+      get "/cliente/#{@cliente.id}"
       expect(response).to have_http_status(:success)
     end
   end
@@ -60,21 +62,18 @@ RSpec.describe "ClienteControllers", type: :request do
       }
 
       it "updates the requested cliente" do
-        cliente = create(:cliente)
-        put "/cliente/#{cliente.id}", params: { cliente: new_attributes }
-        cliente.reload
-        expect(cliente.nome).to eq(new_attributes[:nome])
+        put "/cliente/#{@cliente.id}", params: { cliente: new_attributes }
+        @cliente.reload
+        expect(@cliente.nome).to eq(new_attributes[:nome])
       end
 
       it "returns a 200 status code" do
-        cliente = create(:cliente)
-        put "/cliente/#{cliente.id}", params: { cliente: new_attributes }
+        put "/cliente/#{@cliente.id}", params: { cliente: new_attributes }
         expect(response).to have_http_status(200)
       end
 
       it "returns the updated cliente as JSON" do
-        cliente = create(:cliente)
-        put "/cliente/#{cliente.id}", params: { cliente: new_attributes }
+        put "/cliente/#{@cliente.id}", params: { cliente: new_attributes }
         json = JSON.parse(response.body)
         expect(json["nome"]).to eq(new_attributes[:nome])
       end
@@ -82,14 +81,12 @@ RSpec.describe "ClienteControllers", type: :request do
 
     context "with invalid params" do
       it "returns a 422 status code" do
-        cliente = create(:cliente)
-        put "/cliente/#{cliente.id}", params: { cliente: { nome: nil } }
+        put "/cliente/#{@cliente.id}", params: { cliente: { nome: nil } }
         expect(response).to have_http_status(422)
       end
 
       it "returns the errors as JSON" do
-        cliente = create(:cliente)
-        put "/cliente/#{cliente.id}", params: { cliente: { nome: nil } }
+        put "/cliente/#{@cliente.id}", params: { cliente: { nome: nil } }
         json = JSON.parse(response.body)
         expect(json["nome"]).to include("can't be blank")
       end
@@ -98,15 +95,13 @@ RSpec.describe "ClienteControllers", type: :request do
 
   describe "DELETE #destroy" do
     it "destroys the requested cliente" do
-      cliente = create(:cliente)
       expect {
-        delete "/cliente/#{cliente.id}"
+        delete "/cliente/#{@cliente.id}"
       }.to change(Cliente, :count).by(-1)
     end
 
     it "returns a 204 status code" do
-      cliente = create(:cliente)
-      delete "/cliente/#{cliente.id}"
+      delete "/cliente/#{@cliente.id}"
       expect(response).to have_http_status(204)
     end
   end
