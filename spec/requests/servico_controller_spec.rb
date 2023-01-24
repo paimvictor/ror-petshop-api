@@ -37,9 +37,22 @@ RSpec.describe "ServicoControllers", type: :request do
         servico_data = FactoryBot.attributes_for(:servico)
         post "/servico", params: { servico: servico_data, pet_id: @pet.id }
         json = JSON.parse(response.body)
-        expect(json["nome"]).to eq(servico_data[:nome])
-        expect(json["descricao"]).to eq(servico_data[:descricao])
-        expect(json["preco"]).to eq(servico_data[:preco])
+        expect(json["titulo"]).to eq(servico_data[:titulo])
+      end
+    end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        post "/servico", params: { servico: { titulo: nil }, pet_id: @pet.id }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        post "/servico", params: { servico: { titulo: nil }, pet_id: @pet.id }
+        json = JSON.parse(response.body)
+        expect(json['titulo']).to include("can't be blank")
+        expect(json['preco']).to include("can't be blank")
+        expect(json['data_agendamento']).to include("can't be blank")
       end
     end
   end
@@ -61,6 +74,19 @@ RSpec.describe "ServicoControllers", type: :request do
         put "/servico/#{@servico.id}", params: { servico: { titulo: "Novo titulo" } }
         json = JSON.parse(response.body)
         expect(json["titulo"]).to eq("Novo titulo")
+      end
+    end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        put "/servico/#{@servico.id}", params: { servico: { titulo: nil } }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        put "/servico/#{@servico.id}", params: { servico: { titulo: nil } }
+        json = JSON.parse(response.body)
+        expect(json['titulo']).to include("can't be blank")
       end
     end
   end

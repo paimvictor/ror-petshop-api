@@ -41,6 +41,21 @@ RSpec.describe "PetControllers", type: :request do
         expect(json["especie"]).to eq(pet_data[:especie])
       end
     end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        cliente = create(:cliente)
+        post "/pet", params: { pet: { nome: nil }, cliente_id: cliente.id }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        cliente = create(:cliente)
+        post "/pet", params: { pet: { nome: nil }, cliente_id: cliente.id }
+        json = JSON.parse(response.body)
+        expect(json["nome"]).to include("can't be blank")
+      end
+    end
   end
 
   describe "PUT #update" do
@@ -70,6 +85,23 @@ RSpec.describe "PetControllers", type: :request do
         put "/pet/#{pet.id}", params: { pet: new_attributes, cliente_id: cliente.id }
         json = JSON.parse(response.body)
         expect(json["nome"]).to eq(new_attributes[:nome])
+      end
+    end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        cliente = create(:cliente)
+        pet = create(:pet)
+        put "/pet/#{pet.id}", params: { pet: { nome: nil }, cliente_id: cliente.id }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        cliente = create(:cliente)
+        pet = create(:pet)
+        put "/pet/#{pet.id}", params: { pet: { nome: nil }, cliente_id: cliente.id }
+        json = JSON.parse(response.body)
+        expect(json["nome"]).to include("can't be blank")
       end
     end
   end

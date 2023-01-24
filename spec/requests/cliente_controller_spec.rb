@@ -38,6 +38,19 @@ RSpec.describe "ClienteControllers", type: :request do
         expect(json["telefone"]).to eq(cliente_data[:telefone])
       end
     end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        post "/cliente", params: { cliente: { nome: nil } }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        post "/cliente", params: { cliente: { nome: nil } }
+        json = JSON.parse(response.body)
+        expect(json["nome"]).to include("can't be blank")
+      end
+    end
   end
 
   describe "PUT #update" do
@@ -64,6 +77,21 @@ RSpec.describe "ClienteControllers", type: :request do
         put "/cliente/#{cliente.id}", params: { cliente: new_attributes }
         json = JSON.parse(response.body)
         expect(json["nome"]).to eq(new_attributes[:nome])
+      end
+    end
+
+    context "with invalid params" do
+      it "returns a 422 status code" do
+        cliente = create(:cliente)
+        put "/cliente/#{cliente.id}", params: { cliente: { nome: nil } }
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns the errors as JSON" do
+        cliente = create(:cliente)
+        put "/cliente/#{cliente.id}", params: { cliente: { nome: nil } }
+        json = JSON.parse(response.body)
+        expect(json["nome"]).to include("can't be blank")
       end
     end
   end
