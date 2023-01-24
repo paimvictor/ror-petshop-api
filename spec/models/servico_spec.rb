@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Servico, type: :model do
   describe "validations" do
     it { should validate_presence_of(:titulo) }
@@ -12,15 +10,16 @@ RSpec.describe Servico, type: :model do
   end
 
   describe "validates preco" do
-    it "should be valid" do
-      pet = Pet.create(nome: "Fido", especie: "dog", raca: "Golden Retriever")
-      servico = Servico.new(titulo: "Banho", preco: 50, data_agendamento: DateTime.now, pet: pet)
-      expect(servico.valid?).to be true
+    let(:pet) { create(:pet) }
+    let(:valid_servico) { build_stubbed(:servico, pet: pet) }
+    let(:invalid_servico) { build_stubbed(:servico, preco: -50, pet: pet) }
+
+    it "is valid with valid attributes" do
+      expect(valid_servico).to be_valid
     end
-    it "should be invalid" do
-      pet = Pet.create(nome: "Fido", especie: "dog", raca: "Golden Retriever")
-      servico = Servico.new(titulo: "Banho", preco: -50, data_agendamento: DateTime.now, pet: pet)
-      expect(servico.valid?).to be false
+
+    it "is invalid with invalid attributes" do
+      expect(invalid_servico).to be_invalid
     end
   end
 end
