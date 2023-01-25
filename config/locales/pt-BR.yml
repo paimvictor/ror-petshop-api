@@ -7,6 +7,23 @@ pt-BR:
         restrict_dependent_destroy:
           has_one: Não é possível excluir o registro pois existe um %{record} dependente
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
+    models:
+      client: Cliente
+      pet: Pet
+      service: Serviço
+    attributes:
+      client:
+        name: Nome
+        email: Email
+        phone: Telefone
+      pet:
+        name: Nome
+        breed: Raça
+        species: Espécie
+      service:
+        title: Título
+        price: Preço
+        scheduled_date: Data Agendada
   date:
     abbr_day_names:
     - dom
