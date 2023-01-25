@@ -48,9 +48,9 @@ RSpec.describe "ServiceControllers", type: :request do
       it "returns the errors as JSON" do
         post "/service", params: { service: { title: nil }, pet_id: pet.id }
         json = JSON.parse(response.body)
-        expect(json['title']).to include("can't be blank")
-        expect(json['price']).to include("can't be blank")
-        expect(json['scheduled_date']).to include("can't be blank")
+        expect(json["title"]).to include(I18n.t("errors.messages.blank"))
+        expect(json["price"]).to include(I18n.t("errors.messages.blank"))
+        expect(json["scheduled_date"]).to include(I18n.t("errors.messages.blank"))
       end
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe "ServiceControllers", type: :request do
       it "returns the errors as JSON" do
         put "/service/#{service.id}", params: { service: { title: nil } }
         json = JSON.parse(response.body)
-        expect(json['title']).to include("can't be blank")
+        expect(json["title"]).to include(I18n.t("errors.messages.blank"))
       end
     end
   end

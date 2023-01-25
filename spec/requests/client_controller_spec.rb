@@ -51,7 +51,7 @@ RSpec.describe "ClientControllers", type: :request do
       it "returns the errors as JSON" do
         post "/client", params: { client: { name: nil } }
         json = JSON.parse(response.body)
-        expect(json["name"]).to include("can't be blank")
+        expect(json["name"]).to include(I18n.t("errors.messages.blank"))
       end
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe "ClientControllers", type: :request do
       it "returns the errors as JSON" do
         put "/client/#{client.id}", params: { client: { name: nil } }
         json = JSON.parse(response.body)
-        expect(json["name"]).to include("can't be blank")
+        expect(json["name"]).to include(I18n.t("errors.messages.blank"))
       end
     end
   end
